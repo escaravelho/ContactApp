@@ -1,18 +1,21 @@
 package br.com.campuscode03.contactapp;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import br.com.campuscode03.contactapp.provider.ContactModel;
+
 public class CreateContactActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText edit_name;
     private EditText edit_phone;
     private Button bt_save;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,22 +26,19 @@ public class CreateContactActivity extends AppCompatActivity implements View.OnC
         edit_phone = (EditText) findViewById(R.id.phone);
         bt_save = (Button) findViewById(R.id.bt_contact_save);
 
-
         bt_save.setOnClickListener(this);
-
     }
-
-
 
     @Override
     public void onClick(View view) {
 
-        Intent intent = new Intent();
+        ContentValues values = new ContentValues();
 
-        intent.putExtra("name", edit_name.getText().toString());
-        intent.putExtra("phone", edit_phone.getText().toString());
+        values.put(ContactModel.NAME, edit_name.getText().toString());
+        values.put(ContactModel.PHONE, edit_phone.getText().toString());
 
-        setResult(RESULT_OK, intent);
+        Uri result = getContentResolver().insert(ContactModel.CONTENT_URI, values);
+
         finish();
     }
 }

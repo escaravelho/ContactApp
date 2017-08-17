@@ -3,15 +3,21 @@ package br.com.campuscode03.contactapp.model;
 
 public class Contact {
 
+    int id;
     String name;
     String phone;
 
 
-    public Contact(String name, String phone){
+    public Contact(int id, String name, String phone){
 
+        this.id = id;
         this.name = name;
         this.phone = phone;
     }
+
+    public int getId(){ return id; }
+
+    public void setId(int id){ this.id = id; }
 
     public String getName() {
         return name;

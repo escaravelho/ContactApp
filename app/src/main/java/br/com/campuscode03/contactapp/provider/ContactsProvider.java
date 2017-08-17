@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 public class ContactsProvider extends ContentProvider {
 
@@ -91,8 +92,19 @@ public class ContactsProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int delete(@NonNull Uri uri, @Nullable String where, @Nullable String[] whereArgs) {
+        SQLiteDatabase db = mDBHelper.getWritableDatabase();
+        String id;
+
+        switch (sUriMatcher.match(uri)){
+            case URI_CONTACT:
+                return db.delete(ContactModel.TABLE_NAME, null, null);
+            case URI_CONTACT_ID:
+                id = uri.getLastPathSegment();
+                return db.delete(ContactModel.TABLE_NAME, ContactModel._ID + "=" + id + (!TextUtils.isEmpty(where) ? " AND (" + where + ")" : ""), whereArgs);
+            default:
+                throw new IllegalArgumentException("Unknown URI" + uri);
+        }
     }
 
     @Override
