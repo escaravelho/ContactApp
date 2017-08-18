@@ -1,10 +1,15 @@
 package br.com.campuscode03.contactapp.model;
 
 
+import com.google.gson.annotations.SerializedName;
+
 public class Contact {
 
+    @SerializedName("id")
     int id;
+    @SerializedName("name")
     String name;
+    @SerializedName("phone")
     String phone;
 
 

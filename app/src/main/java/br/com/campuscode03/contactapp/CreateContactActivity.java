@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 
+import br.com.campuscode03.contactapp.network.ContactsHttpManager;
 import br.com.campuscode03.contactapp.provider.ContactModel;
 
 public class CreateContactActivity extends AppCompatActivity implements View.OnClickListener{
@@ -31,14 +35,35 @@ public class CreateContactActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
+        Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+        boolean bool = true;
 
-        ContentValues values = new ContentValues();
+        String inputName = edit_name.getText().toString();
+        String inputPhone = edit_phone.getText().toString();
 
-        values.put(ContactModel.NAME, edit_name.getText().toString());
-        values.put(ContactModel.PHONE, edit_phone.getText().toString());
+        if(TextUtils.isEmpty(inputName)){
+            edit_name.setError("Invalid name!");
+            edit_name.setAnimation(animation);
+            bool = false;
+        }
 
-        Uri result = getContentResolver().insert(ContactModel.CONTENT_URI, values);
+        if(TextUtils.isEmpty(inputPhone)){
+            edit_phone.setError("Invalid number!");
+            edit_phone.setAnimation(animation);
+            bool = false;
+        }
 
-        finish();
+        if(bool) {
+            ContentValues values = new ContentValues();
+
+            values.put(ContactModel.NAME, inputName);
+            values.put(ContactModel.PHONE, inputPhone);
+
+            Uri result = getContentResolver().insert(ContactModel.CONTENT_URI, values);
+
+            ContactsHttpManager sendContacts = new ContactsHttpManager();
+            sendContacts.sendContacts(inputName, inputPhone);
+            finish();
+        }
     }
 }
