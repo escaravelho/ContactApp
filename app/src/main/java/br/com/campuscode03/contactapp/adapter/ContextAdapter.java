@@ -56,8 +56,8 @@ public class ContextAdapter extends BaseAdapter{
             viewHolder = inflater.inflate(R.layout.contacts_item, null);
         }
 
-        text1 = (TextView) viewHolder.findViewById(R.id.name_contact);
-        text2 = (TextView) viewHolder.findViewById(R.id.phone_contact);
+        text1 = viewHolder.findViewById(R.id.name_contact);
+        text2 = viewHolder.findViewById(R.id.phone_contact);
 
         text1.setText(list.get(i).getName());
         text2.setText(list.get(i).getPhone());

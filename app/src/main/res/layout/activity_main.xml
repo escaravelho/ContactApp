@@ -5,10 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/id_swype_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <ListView
         android:id="@+id/contact_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_contact_bt"
@@ -18,8 +25,7 @@
         app:fabSize="mini"
         app:srcCompat="@android:drawable/ic_input_add"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@id/contact_list"
+        android:layout_alignRight="@id/id_swype_refresh"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"/>
-
 </RelativeLayout>
